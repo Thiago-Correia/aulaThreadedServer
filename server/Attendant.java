@@ -10,14 +10,16 @@ public class Attendant extends Thread{
 
     @Override
     public void run() {
-        Translation request = (Translation) communication.recieve();
+        while(true){
+            Translation request = (Translation) communication.recieve();
 
-        String response = translate(request.getWord());
+            String response = translate(request.getWord());
 
-        if(response != null){
-            communication.send(new Translation(response, Status.SUCCESS)); 
-        } else {
-            communication.send(new Translation(response, Status.NOT_FOUND));
+            if(response != null){
+                communication.send(new Translation(response, Status.SUCCESS)); 
+            } else {
+             communication.send(new Translation(response, Status.NOT_FOUND));
+            }
         }
     }
 
